@@ -29,3 +29,10 @@ t1 = BashOperator(
     bash_command='aws s3 sync /home/milton/gitub/Runescape/drops.csv s3://runescape-bucket/data/drops.csv',
     dag=dag
 )
+
+# t2 
+t2 = BashOperator(
+    task_id='download csv data',
+    bash_command='aws s3 cp s3://runescape-bucket/data/drops.csv /home/milton/gitub/Runescape/drops2.csv', 
+    dag=dag
+)
