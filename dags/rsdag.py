@@ -29,14 +29,14 @@ POSTGRES_CONN_ID = 'pgdb'
 # t1
 upload = BashOperator(
     task_id = 'upload_to_s3',
-    bash_command = 'aws s3 cp /home/milton/github/Runescape/drops.csv s3://runescape-bucket/data/drops.csv',
+    bash_command = 'aws s3 cp /home/milton/github/Runescape/data/drops.csv s3://runescape-bucket/data/drops.csv',
     dag = dag
 )
 
 # t2 
 download = BashOperator(
     task_id = 'download_from_s3',
-    bash_command = 'aws s3 cp s3://runescape-bucket/data/drops.csv /home/milton/github/Runescape/drops2.csv', 
+    bash_command = 'aws s3 cp s3://runescape-bucket/data/drops.csv /home/milton/github/Runescape/data/drops2.csv', 
     dag = dag
 )
 sql_cmds = []
@@ -113,7 +113,7 @@ sql_cmds.append("""
 
 sql_cmds.append("""
     COPY rstable 
-    FROM '/home/milton/github/Runescape/drops2.csv'
+    FROM '/home/milton/github/Runescape/data/drops2.csv'
     DELIMITER ',' CSV HEADER;
     """ 
     )
