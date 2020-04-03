@@ -27,97 +27,102 @@ dag = DAG(
 POSTGRES_CONN_ID = 'pgdb'
 
 # t1
-t1 = BashOperator(
+upload = BashOperator(
     task_id = 'upload_to_s3',
-    bash_command = 'aws s3 sync /home/milton/gitub/Runescape/drops.csv s3://runescape-bucket/data/drops.csv',
+    bash_command = 'aws s3 cp /home/milton/github/Runescape/drops.csv s3://runescape-bucket/data/drops.csv',
     dag = dag
 )
 
 # t2 
-t2 = BashOperator(
-    task_id = 'download csv data',
-    bash_command = 'aws s3 cp s3://runescape-bucket/data/drops.csv /home/milton/gitub/Runescape/drops2.csv', 
+download = BashOperator(
+    task_id = 'download_from_s3',
+    bash_command = 'aws s3 cp s3://runescape-bucket/data/drops.csv /home/milton/github/Runescape/drops2.csv', 
     dag = dag
 )
 sql_cmds = []
+
+sql_cmds.append("""
+    DROP TABLE IF EXISTS rstable;
+    """
+    )
+
 sql_cmds.append("""
     CREATE TABLE rstable
         (
-        'Date' DATE,
-        'Dragon Bones' INT,
-        'Black dragonhide' INT,
-        'Dragon platelegs' INT,
-        'Dragon plateskirt' INT,
-        'Dragon spear' INT,
-        'Uncut dragonstone' INT,
-        'Rune hasta' INT,
-        'Rune spear' INT,	
-        'Rune platelegs' INT,	
-        'Rune full helm' INT,	
-        'Rune dart' INT,	
-        'Rune longsword' INT,	
-        'Black d’hide body' INT,	
-        'Rune knife' INT,	
-        'Rune thrownaxe' INT,	
-        'Black d’hide vamb' INT,	
-        'Rune platebody' INT,	
-        'Dragon med helm' INT,	
-        'Dragon longsword' INT,	
-        'Dragon dagger' INT,
-        'Rune javelin' INT,	
-        'Blood rune' INT,	
-        'Soul rune' INT,	
-        'Death rune' INT,	
-        'Law rune' INT,
-        'Rune arrow' INT,	
-        'Lava scale' INT,	
-        'Dragon dart tip' INT,	
-        'Runite ore' INT,	
-        'Dragon arrowtips' INT,	
-        'Dragon javelin heads' INT,	
-        'Coins' INT,	
-        'Anglerfish' INT,	
-        'Uncut sapphire' INT,	
-        'Uncut emerald' INT,	
-        'Loop half of key' INT,	
-        'Tooth half of key' INT,	
-        'Uncut ruby' INT,	
-        'Runite bar' INT,	
-        'Nature talisman' INT,	
-        'Uncut diamond' INT,	
-        'Nature rune' INT,	
-        'Rune 2h sword' INT,	
-        'Rune battleaxe' INT,	
-        'Steel arrow' INT,	
-        'Adamant javelin' INT,	
-        'Rune sq shield' INT,	
-        'Dragonstone' INT,	
-        'Silver ore' INT,	
-        'Rune kiteshield' INT,	
-        'Shield left half' INT,	
-        'Dragon spear' INT,	
-        'Ensouled dragon head' INT,	
-        'Clue scroll (hard)' INT,	
-        'Clue scroll (elite)' INT,
-        'Draconic visage' INT,	
-        'Ancient shard' INT,	
-        'Dark totem base' INT,	
-        'Dark totem middle' INT,	
-        'Dark totem top' INT);
+        Day DATE,
+        Dragon_Bones INT,
+        Black_dragonhide INT,
+        Dragon_platelegs INT,
+        Dragon_plateskirt INT,
+        Dragon_spear INT,
+        Uncut_dragonstone INT,
+        Rune_hasta INT,
+        Rune_spear INT,	
+        Rune_platelegs INT,	
+        Rune_full_helm INT,	
+        Rune_dart INT,	
+        Rune_longsword INT,	
+        Black_dhide_body INT,	
+        Rune_knife INT,	
+        Rune_thrownaxe INT,	
+        Black_dhide_vamb INT,	
+        Rune_platebody INT,	
+        Dragon_med_helm INT,	
+        Dragon_longsword INT,	
+        Dragon_dagger INT,
+        Rune_javelin INT,	
+        Blood_rune INT,	
+        Soul_rune INT,	
+        Death_rune INT,	
+        Law_rune INT,
+        Rune_arrow INT,	
+        Lava_scale INT,	
+        Dragon_dart_tip INT,	
+        Runite_ore INT,	
+        Dragon_arrowtips INT,	
+        Dragon_javelin_heads INT,	
+        Coins INT,	
+        Anglerfish INT,	
+        Uncut_sapphire INT,	
+        Uncut_emerald INT,	
+        Loop_half_of_key INT,	
+        Tooth_half_of_key INT,	
+        Uncut_ruby INT,	
+        Runite_bar INT,	
+        Nature_talisman INT,	
+        Uncut_diamond INT,	
+        Nature_rune INT,	
+        Rune_2h_sword INT,	
+        Rune_battleaxe INT,	
+        Steel_arrow INT,	
+        Adamant_javelin INT,	
+        Rune_sq_shield INT,	
+        Dragonstone INT,	
+        Silver_ore INT,	
+        Rune_kiteshield INT,	
+        Shield_left_half INT,	
+        Ensouled_dragon_head INT,	
+        Clue_scroll_hard INT,	
+        Clue_scroll_elite INT,
+        Draconic_visage INT,	
+        Ancient_shard INT,	
+        Dark_totem_base INT,	
+        Dark_totem_middle INT,	
+        Dark_totem_top INT);
     """)
 
 sql_cmds.append("""
     COPY rstable 
-    FROM '/home/milton/gitub/Runescape/drops2.csv'
+    FROM '/home/milton/github/Runescape/drops2.csv'
     DELIMITER ',' CSV HEADER;
     """ 
     )
 
-t3 = PostgresOperator(
+rs_drops_report = PostgresOperator(
     task_id='rs_drops_report',
-    sql=create_rs_table,
+    sql=sql_cmds,
     postgres_conn_id=POSTGRES_CONN_ID,
     dag=dag
 )
-
-t1 >> t2 >> t3
+# import ipdb; ipdb.set_trace()
+upload >> download  >> rs_drops_report
