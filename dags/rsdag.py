@@ -16,6 +16,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
     
 }
+
 dag = DAG(
     'runescape',
     default_args = default_args,
@@ -26,19 +27,22 @@ dag = DAG(
 # Setting variables and connections
 POSTGRES_CONN_ID = 'pgdb'
 
-# t1
+# The first task
 upload = BashOperator(
     task_id = 'upload_to_s3',
     bash_command = 'aws s3 cp /home/milton/github/Runescape/data/drops.csv s3://runescape-bucket/data/drops.csv',
     dag = dag
 )
 
-# t2 
+# The second task
 download = BashOperator(
     task_id = 'download_from_s3',
     bash_command = 'aws s3 cp s3://runescape-bucket/data/drops.csv /home/milton/github/Runescape/data/drops2.csv', 
     dag = dag
 )
+
+# It is best to use an append for the third task
+
 sql_cmds = []
 
 sql_cmds.append("""
@@ -124,5 +128,9 @@ rs_drops_report = PostgresOperator(
     postgres_conn_id=POSTGRES_CONN_ID,
     dag=dag
 )
+
 # import ipdb; ipdb.set_trace()
+
+# Tasks must to instructed to go in the correct order
+
 upload >> download  >> rs_drops_report
