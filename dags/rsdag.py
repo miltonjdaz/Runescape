@@ -134,20 +134,3 @@ rs_drops_report = PostgresOperator(
 # Tasks must to instructed to go in the correct order
 
 upload >> download  >> rs_drops_report
-
-"""
-output_sql_query(
-    SELECT COUNT(Dragon_Bones) 
-    FROM rstable; 
-    )
-
-sql_query = PostgresOperator(
-    task_id='sql_query',
-    sql=output_sql_query,
-    postgres_conn_id=POSTGRES_CONN_ID,
-    dag=dag
-)
-
-upload >> download  >> rs_drops_report >> sql_query
-
-"""
