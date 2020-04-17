@@ -1,6 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine 
 import os
+import psycopg2
 
 db_user = os.environ.get('DB_USER')
 db_pw = os.environ.get('DB_PASS')
@@ -9,4 +10,6 @@ db_pw = os.environ.get('DB_PASS')
 
 engine = create_engine('postgresql://{login}:{pw}@localhost/postgres'.format(login=db_user, pw=db_pw))
 
-pd.read_sql('SELECT COUNT(Dragon_bones) FROM rstable', engine)
+query = pd.read_sql_query('SELECT COUNT(Dragon_bones) FROM rstable', engine)
+print(query)
+import ipdb; ipdb.set_trace()
