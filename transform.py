@@ -13,7 +13,10 @@ engine = create_engine('postgresql://{login}:{pw}@localhost/postgres'.format(log
 query_one = pd.read_sql_query('SELECT COUNT(Dragon_bones) FROM rstable', engine)
 print(query_one)
 
-query_two = pd.read_sql_query('SELECT COUNT(Rune_hasta) FROM rstable GROUP BY Year_Month_Day', engine)
+query_two = pd.read_sql_query('SELECT COUNT(Rune_hasta), Day FROM rstable GROUP BY Day', engine)
 print(query_two)
+
+query_three = pd.read_sql_query('SELECT AVG(Coins), Day FROM rstable GROUP BY Day', engine)
+print(query_three)
 
 import ipdb; ipdb.set_trace()
