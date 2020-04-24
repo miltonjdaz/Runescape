@@ -25,4 +25,7 @@ print(query_four)
 query_five = pd.read_sql_query('SELECT AVG(Clue_scroll_hard), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
 print(query_five)
 
+query_six = pd.read_sql_query('SELECT COUNT(Dragon_platelegs), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
+print(query_six)
+
 import ipdb; ipdb.set_trace()
