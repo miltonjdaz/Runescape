@@ -16,16 +16,10 @@ print(query_one)
 query_two = pd.read_sql_query('SELECT COUNT(Rune_hasta), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
 print(query_two)
 
-query_three = pd.read_sql_query('SELECT AVG(Rune_Hasta), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
+query_three = pd.read_sql_query('SELECT COUNT(Clue_scroll_hard), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
 print(query_three)
 
-query_four = pd.read_sql_query('SELECT COUNT(Clue_scroll_hard), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
+query_four = pd.read_sql_query('SELECT COUNT(Dragon_platelegs), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
 print(query_four)
-
-query_five = pd.read_sql_query('SELECT AVG(Clue_scroll_hard), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
-print(query_five)
-
-query_six = pd.read_sql_query('SELECT COUNT(Dragon_platelegs), Day FROM rstable GROUP BY Day ORDER BY Day', engine)
-print(query_six)
 
 import ipdb; ipdb.set_trace()
