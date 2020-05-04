@@ -37,12 +37,12 @@ plt.show()
 df3 = pd.read_csv("/home/milton/github/Runescape/results/results_q3.csv")
 
 x = df3.day
-y = df3.blood_rune
+y = df3.rune_longsword
 
-plt.plot(x, y, color = 'red')
-plt.title("Number of Blood_runes drops per Day")
+plt.plot(x, y, color = 'black')
+plt.title("Number of Rune_longsword drops per Day")
 plt.xlabel("Day")
-plt.ylabel("Blood_rune")
+plt.ylabel("Rune_longsword")
 plt.xticks(rotation=30)
 plt.show()
 
