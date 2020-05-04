@@ -30,9 +30,9 @@ df2 = pd.DataFrame(query_two)
 # saving the dataframe 
 df2.to_csv('/home/milton/github/Runescape/results/results_q2.csv') 
 
-# 3rd query; results are the amount of blood runes drops per day
+# 3rd query; results are the amount of rune_longsword drops per day
 
-query_three = pd.read_sql_query('SELECT COUNT(Blood_rune) AS Blood_rune, Day FROM rstable GROUP BY Day ORDER BY Day', engine)
+query_three = pd.read_sql_query('SELECT COUNT(Blood_rune) AS Rune_longsword, Day FROM rstable GROUP BY Day ORDER BY Day', engine)
 print(query_three)
 
 df3 = pd.DataFrame(query_three) 
