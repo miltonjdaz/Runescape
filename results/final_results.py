@@ -12,9 +12,9 @@ x = df1.day
 y = df1.dragon_bones
 
 plt.plot(x, y, color = 'gold')
-plt.title("Number of Dragon_bones per day")
+plt.title("Number of Dragon bones per Day")
 plt.xlabel("Day")
-plt.ylabel("Dragon_bones")
+plt.ylabel("Dragon bones")
 plt.xticks(rotation=30)
 plt.show()
 
@@ -26,9 +26,9 @@ x = df2.day
 y = df2.rune_hasta
 
 plt.plot(x, y, color = 'blue')
-plt.title("Number of Rune_hastas per Day")
+plt.title("Number of Rune hastas per Day")
 plt.xlabel("Day")
-plt.ylabel("Rune_hasta")
+plt.ylabel("Rune hasta")
 plt.xticks(rotation=30)
 plt.show()
 
@@ -40,9 +40,9 @@ x = df3.day
 y = df3.rune_longsword
 
 plt.plot(x, y, color = 'black')
-plt.title("Number of Rune_longsword drops per Day")
+plt.title("Number of Rune longsword drops per Day")
 plt.xlabel("Day")
-plt.ylabel("Rune_longsword")
+plt.ylabel("Rune longsword")
 plt.xticks(rotation=30)
 plt.show()
 
@@ -54,8 +54,8 @@ x = df4.day
 y = df4.dragon_platelegs
 
 plt.plot(x, y, color = 'green')
-plt.title("Number of Dragon_platelegs per Day")
+plt.title("Number of Dragon platelegs per Day")
 plt.xlabel("Day")
-plt.ylabel("Dragon_platelegs")
+plt.ylabel("Dragon platelegs")
 plt.xticks(rotation=30)
 plt.show()
